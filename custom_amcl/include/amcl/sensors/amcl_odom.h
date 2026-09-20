@@ -1,0 +1,116 @@
+/*
+ *  Player - One Hell of a Robot Server
+ *  Copyright (C) 2000  Brian Gerkey et al.
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+///////////////////////////////////////////////////////////////////////////
+//
+// Desc: Odometry sensor model for AMCL
+// Author: Andrew Howard
+// Date: 17 Aug 2003
+// CVS: $Id: amcl_odom.h 4135 2007-08-23 19:58:48Z gerkey $
+//
+///////////////////////////////////////////////////////////////////////////
+
+#ifndef AMCL_ODOM_H
+#define AMCL_ODOM_H
+
+#include "amcl_sensor.h"
+#include "../pf/pf_pdf.h"
+
+namespace amcl
+{
+
+typedef enum
+{
+  ODOM_MODEL_DIFF,
+  ODOM_MODEL_OMNI,
+  ODOM_MODEL_DIFF_CORRECTED,
+  ODOM_MODEL_OMNI_CORRECTED
+} odom_model_t;
+
+
+// Odometric sensor data
+class AMCLOdomData : public AMCLSensorData
+{
+  public:
+    // Odometric pose
+    pf_vector_t pose;
+
+    // Change in odometric pose
+    pf_vector_t delta;
+};
+
+
+// Odometric sensor model
+class AMCLOdom : public AMCLSensor
+{
+  public:
+    // Default constructor
+    AMCLOdom();
+
+    void SetModelDiff(double alpha1,
+                      double alpha2,
+                      double alpha3,
+                      double alpha4);
+
+    void SetModelOmni(double alpha1,
+                      double alpha2,
+                      double alpha3,
+                      double alpha4,
+                      double alpha5);
+
+    void SetModel(odom_model_t type,
+                  double alpha1,
+                  double alpha2,
+                  double alpha3,
+                  double alpha4,
+                  double alpha5 = 0);
+
+    // 노면 상태에 따라 odometry noise scale 조절
+    // 기본값: 1.0
+    // 예:
+    //   1.0 = 정상 노면
+    //   2.0 = 약간 미끄러움
+    //   4.0 = 많이 미끄러움
+    void SetMaterialScale(double scale);
+
+    // Update the filter based on the action model.
+    // Returns true if the filter has been updated.
+    virtual bool UpdateAction(pf_t *pf, AMCLSensorData *data);
+
+  private:
+    // Current data timestamp
+    double time;
+
+    // Model type
+    odom_model_t model_type;
+
+    // Drift parameters
+    double alpha1;
+    double alpha2;
+    double alpha3;
+    double alpha4;
+    double alpha5;
+
+    // Custom AMCL: material-based odometry noise scale
+    double material_scale_;
+};
+
+}  // namespace amcl
+
+#endif
