@@ -1,0 +1,23 @@
+image_width: 720
+image_height: 480
+camera_name: left
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [325.65, 0.0, 363.41, 0.0, 386.48, 247.08, 0.0, 0.0, 1.0]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.15, 0.02, 0.0, 0.0, 0.0]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  # 매트랩의 RotationOfCamera2 (R) 행렬 입력
+  data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+projection_matrix:
+  rows: 3
+  cols: 4
+  # P[0,3] = -fx * baseline (단위: meter)
+  # 예: 베이스라인이 12cm(0.12m)인 경우 325.65 * -0.34 = -39.078
+  data: [325.65, 0.0, 363.41, -110.721, 0.0, 386.48, 247.08, 0.0, 0.0, 0.0, 1.0, 0.0]
