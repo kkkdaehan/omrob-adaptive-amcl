@@ -1,0 +1,3 @@
+<launch>
+    <node name="GT_to_ply" pkg="camera_ros" type="GT_to_ply" output="screen"/>
+</launch>

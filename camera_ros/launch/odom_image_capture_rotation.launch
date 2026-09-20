@@ -1,0 +1,79 @@
+<launch>
+
+    <node pkg="camera_ros"
+          type="odom_rotate_capture"
+          name="odom_rotate_capture"
+          output="screen">
+
+        <!-- ========================== -->
+        <!-- Topic -->
+        <!-- ========================== -->
+
+        <param name="odom_topic"
+               value="/odom"/>
+
+        <param name="image_topic"
+               value="/camera/color/image_raw"/>
+
+        <param name="cmd_vel_topic"
+               value="/cmd_vel"/>
+
+        <!-- D455 IMU -->
+        <param name="accel_topic"
+               value="/camera/accel/sample"/>
+
+        <param name="gyro_topic"
+               value="/camera/gyro/sample"/>
+
+
+        <!-- ========================== -->
+        <!-- 저장 폴더 -->
+        <!-- ========================== -->
+
+        <param name="save_dir"
+               value="/home/omrob/catkin_ws/src/camera_ros/src/연구실_회전_night_0.2"/>
+
+
+        <!-- ========================== -->
+        <!-- 총 회전 각도 [deg] -->
+        <!-- ========================== -->
+
+        <param name="rotation_deg"
+               value="360"/>
+
+
+        <!-- ========================== -->
+        <!-- 저장 간격 [deg] -->
+        <!-- ========================== -->
+
+        <param name="capture_interval_deg"
+               value="1"/>
+
+
+        <!-- ========================== -->
+        <!-- 회전 속도 [rad/s] -->
+        <!-- ========================== -->
+
+        <param name="angular_speed"
+               value="0.2"/>
+
+
+        <!-- ========================== -->
+        <!-- 회전 방향 -->
+        <!-- left / right -->
+        <!-- ========================== -->
+
+        <param name="rotation_direction"
+               value="left"/>
+
+
+        <!-- ========================== -->
+        <!-- cmd_vel publish [Hz] -->
+        <!-- ========================== -->
+
+        <param name="control_rate"
+               value="20.0"/>
+
+    </node>
+
+</launch>

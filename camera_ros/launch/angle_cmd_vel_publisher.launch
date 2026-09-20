@@ -1,0 +1,12 @@
+<launch>
+    <!-- 사용자 설정 -->
+    <arg name="angular_speed" default="1.5"/>
+    <arg name="target_angle_degree" default="360"/>
+    <arg name="direction" default="-1"/> <!-- 1: 시계, -1: 반시계 -->
+
+    <node pkg="camera_ros" type="angle_cmd_vel_publisher" name="angle_cmd_vel_publisher" output="screen">
+        <param name="angular_speed" value="$(arg angular_speed)"/>
+        <param name="target_angle_degree" value="$(arg target_angle_degree)"/>
+        <param name="direction" value="$(arg direction)"/>
+    </node>
+</launch>

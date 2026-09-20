@@ -1,0 +1,3 @@
+<launch>
+    <node name="before_pointcloud" pkg="camera_ros" type="before_pointcloud" output="screen"/>
+</launch>

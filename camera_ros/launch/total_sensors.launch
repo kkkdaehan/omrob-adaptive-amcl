@@ -1,0 +1,53 @@
+<launch>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find scout_description)/urdf/scout_mini.urdf.xacro'" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="scout_base_node" pkg="scout_base" type="scout_base_node" output="screen">
+        <param name="is_scout_mini" type="bool" value="true" />
+        <param name="port_name" type="string" value="can0" />
+        <param name="simulated_robot" type="bool" value="false" />
+        <param name="odom_frame" type="string" value="odom" />
+        <param name="base_frame" type="string" value="base_link" />
+        <param name="publish_tf" type="bool" value="true" />
+    </node>
+    <group ns="lidar_left">
+        <node name="rplidar_node_left" pkg="rplidar_ros" type="rplidarNode" output="screen">
+            <param name="serial_port" type="string" value="/dev/rplidar_left"/>
+            <param name="serial_baudrate" type="int" value="1000000"/>
+            <param name="frame_id" type="string" value="left_laser_link"/>
+            <param name="inverted" type="bool" value="false"/>
+            <param name="angle_compensate" type="bool" value="true"/>
+            <param name="scan_frequency" type="double" value="10.0"/>
+        </node>
+    </group>
+    <group ns="lidar_right">
+        <node name="rplidar_node_right" pkg="rplidar_ros" type="rplidarNode" output="screen">
+            <param name="serial_port" type="string" value="/dev/rplidar_right"/>
+            <param name="serial_baudrate" type="int" value="1000000"/>
+            <param name="frame_id" type="string" value="right_laser_link"/>
+            <param name="inverted" type="bool" value="false"/>
+            <param name="angle_compensate" type="bool" value="true"/>
+            <param name="scan_frequency" type="double" value="10.0"/>
+        </node>
+    </group>
+    <node name="camera_provider" pkg="camera_ros" type="camera_provider" output="screen" />
+    <node pkg="tf" type="static_transform_publisher" name="base_to_left_cam" args="0 0.255 0.12 0 1.57 0 base_link left_camera_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_to_right_cam" args="0 -0.255 0.12 0 1.57 0 base_link right_camera_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_to_left_lidar" args="-0.15 0.215 0.15 0 0 0 base_link left_laser_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_to_right_lidar" args="0.15 -0.215 0.15 3.14159 0 0 base_link right_laser_link 100" />
+    <node pkg="ira_laser_tools" name="laserscan_multi_merger" type="laserscan_multi_merger" output="screen">
+        <param name="destination_frame" value="base_link"/>
+        <param name="scan_destination_topic" value="/scan"/>
+        <param name="laserscan_topics" value="/lidar_left/scan /lidar_right/scan" />
+        <param name="angle_min" value="-3.14159"/>
+        <param name="angle_max" value="3.14159"/>
+        <param name="angle_increment" value="0.0058"/>
+        <param name="scan_time" value="0.0666"/>
+        <param name="range_min" value="0.15"/>
+        <param name="range_max" value="12.0"/>
+    </node>
+    <node name="rqt_left" pkg="rqt_image_view" type="rqt_image_view"
+      args="/camera_left/image_raw" output="screen"/>
+    <node name="rqt_right" pkg="rqt_image_view" type="rqt_image_view"
+      args="/camera_right/image_raw" output="screen"/>
+</launch>

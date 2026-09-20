@@ -1,0 +1,3 @@
+<launch>
+    <node name="image_save_left_right" pkg="camera_ros" type="image_save_left_right" output="screen"/>
+</launch>

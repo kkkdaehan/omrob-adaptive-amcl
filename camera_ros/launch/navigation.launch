@@ -1,0 +1,6 @@
+<launch>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(env HOME)/catkin_ws/src/navigation/map_server/my_map_data.yaml" output="screen" />
+    <include file="$(find scout_navigation)/launch/amcl.launch">
+        <arg name="scan_topic" value="/scan"/>
+    </include>
+</launch>

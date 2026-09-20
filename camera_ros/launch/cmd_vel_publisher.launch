@@ -1,0 +1,12 @@
+<launch>
+    <!-- 사용자 설정 -->
+    <arg name="linear_speed" default="2.0"/>
+    <arg name="angular_speed" default="0.0"/>
+    <arg name="target_distance" default="1.0"/>
+
+    <node pkg="camera_ros" type="cmd_vel_publisher" name="cmd_vel_publisher" output="screen">
+        <param name="linear_speed" value="$(arg linear_speed)"/>
+        <param name="angular_speed" value="$(arg angular_speed)"/>
+        <param name="target_distance" value="$(arg target_distance)"/>
+    </node>
+</launch>

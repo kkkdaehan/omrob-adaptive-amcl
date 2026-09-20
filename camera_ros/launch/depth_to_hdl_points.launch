@@ -1,0 +1,3 @@
+<launch>
+    <node name="depth_to_hdl_points" pkg="camera_ros" type="depth_to_hdl_points" output="screen"/>
+</launch>

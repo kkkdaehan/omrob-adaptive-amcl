@@ -1,0 +1,3 @@
+<launch>
+    <node name="stereo_image_confidence_pointcloud" pkg="camera_ros" type="stereo_image_confidence_pointcloud" output="screen"/>
+</launch>

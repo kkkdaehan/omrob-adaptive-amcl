@@ -1,0 +1,74 @@
+<launch>
+
+    <node pkg="camera_ros"
+          type="odom_image_capture"
+          name="odom_image_capture"
+          output="screen">
+
+
+        <!-- ========================== -->
+        <!-- Topic -->
+        <!-- ========================== -->
+
+        <param name="odom_topic"
+               value="/odom"/>
+
+        <param name="image_topic"
+               value="/camera/color/image_raw"/>
+
+        <param name="cmd_vel_topic"
+               value="/cmd_vel"/>
+
+
+        <!-- ========================== -->
+        <!-- 저장 폴더 -->
+        <!-- ========================== -->
+
+        <param name="save_dir"
+               value="/home/omrob/catkin_ws/src/camera_ros/src/연구실"/>
+
+
+        <!-- ========================== -->
+        <!-- 총 직진거리 [cm] -->
+        <!--
+             50  = 50cm
+             100 = 1m
+             200 = 2m
+        -->
+        <!-- ========================== -->
+
+        <param name="distance_cm"
+               value="140"/>
+
+
+        <!-- ========================== -->
+        <!-- 데이터 저장 간격 [cm] -->
+        <!--
+             10 = 10cm마다
+             20 = 20cm마다
+        -->
+        <!-- ========================== -->
+
+        <param name="capture_interval_cm"
+               value="5"/>
+
+
+        <!-- ========================== -->
+        <!-- 직진 속도 [m/s] -->
+        <!-- ========================== -->
+
+        <param name="linear_speed"
+               value="0.0926510094425921"/>
+
+
+        <!-- ========================== -->
+        <!-- cmd_vel publish [Hz] -->
+        <!-- ========================== -->
+
+        <param name="control_rate"
+               value="20.0"/>
+
+
+    </node>
+
+</launch>
